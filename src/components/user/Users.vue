@@ -66,14 +66,18 @@
             placement="top-start"
             :enterable="false"
           >
-            <el-button type="warning" size="mini"><el-icon><Setting /></el-icon></el-button>
+            <el-button
+              type="warning"
+              size="mini"
+              @click="setRole(scope.row)"
+            ><el-icon><Setting /></el-icon></el-button>
           </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
     <el-pagination
-      v-model:currentPage="queryInfo.pagenum"
-      v-model:page-size="queryInfo.pagesize"
+      :currentPage="queryInfo.pagenum"
+      :page-size="queryInfo.pagesize"
       :page-sizes="[1, 2, 5, 10]"
       :small="true"
       layout="total, sizes, prev, pager, next, jumper"
@@ -158,6 +162,35 @@
       </span>
     </template>
   </el-dialog>
+  <!-- 分配角色对话框 -->
+  <el-dialog
+    title="分配角色"
+    v-model="setRoleDialogVisible"
+    width="30%"
+    @close="handleSetRoleDialogClose"
+  >
+    <!-- 主体部分 -->
+    <div>
+      <p>当前的用户：{{info.userInfo.username}}</p>
+      <p>当前的角色：{{info.userInfo.role_name}}</p>
+      <p>分配新角色：
+        <el-select v-model="selectedRoleId" placeholder="请选择">
+          <el-option
+            v-for="item in rolelist.roleList"
+            :key="item.id"
+            :label="item.roleName"
+            :value="item.id"
+          />
+        </el-select>
+      </p>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="setRoleDialogVisible=false">取消</el-button>
+        <el-button type="primary" @click="saveRoleInfo">确定</el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup>
@@ -191,6 +224,8 @@ const dialogVisible = ref(false)
 // const dialogVisible = ref(true)
 // 编辑用户信息对话框的显示与隐藏
 const editDialogVisible = ref(false)
+// 分配角色对话框的显示与隐藏
+const setRoleDialogVisible = ref(false)
 // 查询到的用于编辑的用户信息
 const editform = reactive({ editForm: {} })
 
@@ -294,7 +329,7 @@ const addUser = () => {
     if (!valid) return proxy.$message.error('请填写合法信息')
     // 发起 post 请求添加新用户
     const { data } = await proxy.$http.post('users', addForm)
-    console.log(data)
+    // console.log(data)
     if (data.meta.status !== 201) return proxy.$message.error('添加用户失败')
     proxy.$message.success(`添加用户${addForm.username}成功`)
     dialogVisible.value = false
@@ -348,6 +383,34 @@ const deleteUser = async (id) => {
     proxy.$message.success('删除成功')
     getUserList()
   }
+}
+// 需要被分配角色的用户信息
+const info = reactive({ userInfo: {} })
+// 获取到的角色列表
+const rolelist = reactive({ roleList: [] })
+// 已选中的角色id值
+const selectedRoleId = ref('')
+// 分配角色按钮点击
+const setRole = async (userInfo) => {
+  info.userInfo = userInfo
+  // 获取所有角色列表
+  const { data } = await proxy.$http.get('roles')
+  if (data.meta.status !== 200) return proxy.$message.error('获取角色列表失败')
+  rolelist.roleList = data.data
+  setRoleDialogVisible.value = true
+}
+// 点击确定按钮，保存分配的角色信息
+const saveRoleInfo = async () => {
+  if (!selectedRoleId.value) return proxy.$message.error('请选择需要分配的角色')
+  const { data } = await proxy.$http.put(`users/${info.userInfo.id}/role`, { rid: selectedRoleId.value })
+  if (data.meta.status !== 200) return proxy.$message.error('分配角色失败')
+  proxy.$message.success('分配角色成功')
+  getUserList()
+  setRoleDialogVisible.value = false
+}
+const handleSetRoleDialogClose = () => {
+  selectedRoleId.value = ''
+  info.userInfo = {}
 }
 </script>
 

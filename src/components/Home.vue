@@ -127,6 +127,7 @@ activePath.value = window.sessionStorage.getItem('activePath')
   }
   img {
     width: 55px;
+    border-radius: 50%;
   }
 }
 

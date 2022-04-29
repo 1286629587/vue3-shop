@@ -23,8 +23,5 @@ const app = createApp(App)
 // app.prototype.$http = axios
 app.config.globalProperties.$http = axios
 app.use(ElementPlus)
-// Object.keys(ElIconModules).forEach(function (key) {
-//   app.component(ElIconModules[key].name, ElIconModules[key])
-// })
 app.use(router)
 app.mount('#app')

@@ -23,7 +23,11 @@ import {
   ElTooltip,
   ElPagination,
   ElDialog,
-  ElMessageBox
+  ElMessageBox,
+  ElTag,
+  ElTree,
+  ElSelect,
+  ElOption
 } from 'element-plus'
 // import lang from 'element-plus/es/locale/lang/zh-cn'
 // import locale from 'element-plus/es/locale'
@@ -55,6 +59,10 @@ export default (app) => {
   app.use(ElTooltip)
   app.use(ElPagination)
   app.use(ElDialog)
+  app.use(ElTag)
+  app.use(ElTree)
+  app.use(ElSelect)
+  app.use(ElOption)
   app.config.globalProperties.$message = ElMessage
   app.config.globalProperties.$confirm = ElMessageBox.confirm
 }

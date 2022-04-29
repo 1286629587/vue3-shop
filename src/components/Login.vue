@@ -12,7 +12,6 @@
         :rules="loginFormRules"
         label-width="0px"
         class="login_form"
-
       >
         <!-- 用户名 -->
         <el-form-item prop="username">
