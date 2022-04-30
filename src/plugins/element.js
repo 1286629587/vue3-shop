@@ -27,7 +27,8 @@ import {
   ElTag,
   ElTree,
   ElSelect,
-  ElOption
+  ElOption,
+  ElCascader
 } from 'element-plus'
 // import lang from 'element-plus/es/locale/lang/zh-cn'
 // import locale from 'element-plus/es/locale'
@@ -63,6 +64,7 @@ export default (app) => {
   app.use(ElTree)
   app.use(ElSelect)
   app.use(ElOption)
+  app.use(ElCascader)
   app.config.globalProperties.$message = ElMessage
   app.config.globalProperties.$confirm = ElMessageBox.confirm
 }
