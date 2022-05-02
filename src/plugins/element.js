@@ -28,7 +28,10 @@ import {
   ElTree,
   ElSelect,
   ElOption,
-  ElCascader
+  ElCascader,
+  ElAlert,
+  ElTabs,
+  ElTabPane
 } from 'element-plus'
 // import lang from 'element-plus/es/locale/lang/zh-cn'
 // import locale from 'element-plus/es/locale'
@@ -65,6 +68,9 @@ export default (app) => {
   app.use(ElSelect)
   app.use(ElOption)
   app.use(ElCascader)
+  app.use(ElAlert)
+  app.use(ElTabs)
+  app.use(ElTabPane)
   app.config.globalProperties.$message = ElMessage
   app.config.globalProperties.$confirm = ElMessageBox.confirm
 }
