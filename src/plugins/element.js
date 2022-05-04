@@ -31,7 +31,12 @@ import {
   ElCascader,
   ElAlert,
   ElTabs,
-  ElTabPane
+  ElTabPane,
+  ElSteps,
+  ElStep,
+  ElCheckboxGroup,
+  ElCheckbox,
+  ElUpload
 } from 'element-plus'
 // import lang from 'element-plus/es/locale/lang/zh-cn'
 // import locale from 'element-plus/es/locale'
@@ -71,6 +76,11 @@ export default (app) => {
   app.use(ElAlert)
   app.use(ElTabs)
   app.use(ElTabPane)
+  app.use(ElSteps)
+  app.use(ElStep)
+  app.use(ElCheckboxGroup)
+  app.use(ElCheckbox)
+  app.use(ElUpload)
   app.config.globalProperties.$message = ElMessage
   app.config.globalProperties.$confirm = ElMessageBox.confirm
 }
