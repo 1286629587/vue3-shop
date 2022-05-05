@@ -4,6 +4,8 @@ import router from './router'
 import ElementPlus from './plugins/element'
 import { QuillEditor } from '@vueup/vue-quill/'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 // import locale from 'element-plus/es/locale'
 // import zhCn from 'element-plus/es/locale/lang/zh-cn'
 // import './plugins/element'
@@ -15,10 +17,17 @@ import axios from 'axios'
 axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
 // 设置拦截器
 axios.interceptors.request.use((config) => {
+  // 显示进度条
+  NProgress.start()
   // console.log(config)
   // 为请求头对象，添加 token 验证的 Authorization 字段
   config.headers.Authorization = window.sessionStorage.getItem('token')
   // 最后必须 return config
+  return config
+})
+axios.interceptors.response.use((config) => {
+  // 隐藏进度条
+  NProgress.done()
   return config
 })
 const app = createApp(App)
