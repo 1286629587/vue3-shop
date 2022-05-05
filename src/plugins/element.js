@@ -36,7 +36,9 @@ import {
   ElStep,
   ElCheckboxGroup,
   ElCheckbox,
-  ElUpload
+  ElUpload,
+  ElTimeline,
+  ElTimelineItem
 } from 'element-plus'
 // import lang from 'element-plus/es/locale/lang/zh-cn'
 // import locale from 'element-plus/es/locale'
@@ -81,6 +83,8 @@ export default (app) => {
   app.use(ElCheckboxGroup)
   app.use(ElCheckbox)
   app.use(ElUpload)
+  app.use(ElTimeline)
+  app.use(ElTimelineItem)
   app.config.globalProperties.$message = ElMessage
   app.config.globalProperties.$confirm = ElMessageBox.confirm
 }
