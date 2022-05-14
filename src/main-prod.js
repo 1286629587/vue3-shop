@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-// import ElementPlus from './plugins/element'
+import ElementPlus from './plugins/element'
 import { QuillEditor } from '@vueup/vue-quill/'
 // import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import NProgress from 'nprogress'
@@ -46,6 +46,6 @@ app.config.globalProperties.$filters = {
   }
 }
 app.component('QuillEditor', QuillEditor)
-// app.use(ElementPlus)
+app.use(ElementPlus)
 app.use(router)
 app.mount('#app')
