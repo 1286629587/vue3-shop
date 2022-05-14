@@ -3,10 +3,10 @@ module.exports = {
     config.when(process.env.NODE_ENV === 'production', config => {
       config.entry('app').clear().add('./src/main-prod.js')
       config.set('externals', {
-        vue: 'Vue',
-        'vue-router': 'VueRouter',
-        axios: 'axios',
-        echarts: 'echarts',
+        // vue: 'Vue',
+        // 'vue-router': 'VueRouter',
+        // axios: 'axios',
+        // echarts: 'echarts',
         // nprogress: 'Nprogress',
         // '@vueup/vue-quill/': 'QuillEditor'
       })
