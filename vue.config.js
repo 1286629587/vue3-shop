@@ -7,7 +7,7 @@ module.exports = {
         'vue-router': 'VueRouter',
         axios: 'axios',
         echarts: 'echarts',
-        nprogress: 'Nprogress',
+        // nprogress: 'Nprogress',
         // '@vueup/vue-quill/': 'QuillEditor'
       })
       config.plugin('html').tap(args => {
