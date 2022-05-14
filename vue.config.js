@@ -8,7 +8,7 @@ module.exports = {
         axios: 'axios',
         echarts: 'echarts',
         nprogress: 'Nprogress',
-        '@vueup/vue-quill/': 'QuillEditor'
+        // '@vueup/vue-quill/': 'QuillEditor'
       })
       config.plugin('html').tap(args => {
         args[0].isProd = true
