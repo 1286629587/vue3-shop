@@ -5,12 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <title><%= htmlWebpackPlugin.options.isProd ? '' : 'dev - '%>啊达后台管理系统</title>
+    <% if(htmlWebpackPlugin.options.isProd){ %>
+    <!-- 样式文件 -->
     <!-- nprogress 的样式表文件 -->
     <link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css">
     <!-- 富文本编辑器的样式表文件 -->
     <link rel="stylesheet" href="https://unpkg.com/@vueup/vue-quill@1.0.0-beta.8/dist/vue-quill.snow.prod.css">
-    <script src="https://unpkg.com/browse/vue@3.0.0/dist/"></script>
+    <!-- nprogress 样式 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.css"></link>
+    <!-- element plus 样式 -->
+    <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
+    <!-- 脚本文件 -->
+    <script src="//unpkg.com/vue@3.0.0"></script>
+    <script src="https://unpkg.com/vue-router@4"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://lib.baomitu.com/echarts/5.3.2/echarts.common.min.js"></script>
+    <script src="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js"></script>
+    <script src="https://unpkg.com/@vueup/vue-quill@1.0.0-beta.8"></script>
+    <script src="//unpkg.com/element-plus"></script>
+    <script src="//unpkg.com/@element-plus/icons-vue"></script>
+    <!-- <script src="https://cdn.staticfile.org/echarts/5.3.2/echarts.min.js"></script> -->
+    <% } %>
   </head>
   <body>
     <noscript>

@@ -14,7 +14,8 @@ module.exports = {
         styleLibraryName: 'theme-chalk'
       },
       // 发布成品时候的插件数组
-      ...prodPlugins
+      ...prodPlugins,
+      // '@babel/plugin-syntax-dynamic-import'
     ]
   ]
 }
