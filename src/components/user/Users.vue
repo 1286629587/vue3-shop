@@ -29,7 +29,7 @@
     </el-row>
     <!-- 用户列表区 -->
     <el-table
-     :data="list.userList"
+     :data="sList.userList"
      :border="true"
      :stripe="true"
     >
@@ -81,7 +81,7 @@
       :page-sizes="[1, 2, 5, 10]"
       :small="true"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="total"
+      :total="stotal"
       :disabled="false"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -135,7 +135,7 @@
   >
     <!-- 主体部分 -->
     <span>
-      <el-form
+      <!-- <el-form
         ref="editFormRef"
         :model="editform.editForm"
         :rules="editFormRules"
@@ -149,6 +149,22 @@
         </el-form-item>
         <el-form-item label="手机" prop="mobile">
           <el-input v-model="editform.editForm.mobile" />
+        </el-form-item>
+      </el-form> -->
+      <el-form
+        ref="editFormRef"
+        :model="sList.userList[sId]"
+        :rules="editFormRules"
+        label-width="65px"
+      >
+        <el-form-item label="用户名">
+          <el-input v-model="sList.userList[sId].username" disabled />
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="sList.userList[sId].email" />
+        </el-form-item>
+        <el-form-item label="手机" prop="mobile">
+          <el-input v-model="sList.userList[sId].mobile" />
         </el-form-item>
       </el-form>
     </span>
@@ -174,9 +190,17 @@
       <p>当前的用户：{{info.userInfo.username}}</p>
       <p>当前的角色：{{info.userInfo.role_name}}</p>
       <p>分配新角色：
-        <el-select v-model="selectedRoleId" placeholder="请选择">
+        <!-- <el-select v-model="selectedRoleId" placeholder="请选择">
           <el-option
             v-for="item in rolelist.roleList"
+            :key="item.id"
+            :label="item.roleName"
+            :value="item.id"
+          />
+        </el-select> -->
+        <el-select v-model="selectedRoleId" placeholder="请选择">
+          <el-option
+            v-for="item in sRoleList.rolelist"
             :key="item.id"
             :label="item.roleName"
             :value="item.id"
@@ -217,8 +241,32 @@ const { queryInfo, addForm } = reactive({
 })
 // 用户列表
 const list = reactive({ userList: [] })
+// 静态用户列表数据
+const sList = reactive({
+  userList: [
+    {
+      id: 500,
+      username: '赛罗',
+      email: '1286626262@qq.com',
+      mobile: '13545353535',
+      role_name: '新世代奥特曼',
+      mg_state: true
+    },
+    {
+      id: 502,
+      username: '泰罗',
+      email: '1286626262@qq.com',
+      mobile: '13545353535',
+      role_name: '奥特兄弟',
+      mg_state: false
+    }
+  ]
+})
+// console.log(sList)
 // 总页数
 const total = ref(0)
+// 静态总页数
+const stotal = ref(3)
 // 添加用户对话框的显示与隐藏
 const dialogVisible = ref(false)
 // const dialogVisible = ref(true)
@@ -227,7 +275,9 @@ const editDialogVisible = ref(false)
 // 分配角色对话框的显示与隐藏
 const setRoleDialogVisible = ref(false)
 // 查询到的用于编辑的用户信息
-const editform = reactive({ editForm: {} })
+// const editform = reactive({ editForm: {} })
+// 静态数据id
+const sId = ref(0)
 
 // 自定义表单验证规则
 // 验证邮箱的规则
@@ -254,7 +304,7 @@ const checkMobile = (rule, value, callback) => {
 const addFormRules = {
   username: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 3, max: 10, message: '用户名的长度在3-10个字符之间', trigger: 'blur' }
+    { min: 2, max: 10, message: '用户名的长度在3-10个字符之间', trigger: 'blur' }
   ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
@@ -306,14 +356,14 @@ const handleCurrentChange = (newPage) => {
 }
 // 监听 switch 开关状态的改变
 const userStateChanged = async (info) => {
-  console.log(info)
+  // console.log(info)
   // 修改用户状态
-  const { data } = await proxy.$http.put(`users/${info.id}/state/${info.mg_state}`)
+  // const { data } = await proxy.$http.put(`users/${info.id}/state/${info.mg_state}`)
   // console.log(data)
-  if (data.meta.status !== 200) {
-    info.mg_state = !info.mg_state
-    return proxy.$message.error(`修改用户${info.username}状态失败`)
-  }
+  // if (data.meta.status !== 200) {
+  // info.mg_state = !info.mg_state
+  // return proxy.$message.error(`修改用户${info.username}状态失败`)
+  // }
   proxy.$message.success(`修改用户${info.username}状态成功`)
 }
 
@@ -328,20 +378,25 @@ const addUser = () => {
   proxy.$refs.addFormRef.validate(async (valid) => {
     if (!valid) return proxy.$message.error('请填写合法信息')
     // 发起 post 请求添加新用户
-    const { data } = await proxy.$http.post('users', addForm)
+    // const { data } = await proxy.$http.post('users', addForm)
     // console.log(data)
-    if (data.meta.status !== 201) return proxy.$message.error('添加用户失败')
+    // if (data.meta.status !== 201) return proxy.$message.error('添加用户失败')
+    // console.log(addForm)
+    sList.userList.push(addForm)
+    // console.log(sList.userList)
     proxy.$message.success(`添加用户${addForm.username}成功`)
     dialogVisible.value = false
-    getUserList()
+    // getUserList()
   })
 }
 
 // 编辑按钮点击事件,显示编辑用户的对话框
 const handleEditClick = async (id) => {
-  const { data } = await proxy.$http.get('users/' + id)
-  if (data.meta.status !== 200) return proxy.$message.error('查询用户信息失败')
-  editform.editForm = data.data
+  // const { data } = await proxy.$http.get('users/' + id)
+  // if (data.meta.status !== 200) return proxy.$message.error('查询用户信息失败')
+  // editform.editForm = data.data
+  const index = sList.userList.map((item) => item.id).indexOf(id)
+  sId.value = index
   editDialogVisible.value = true
   // console.log(editform.editForm)
   // console.log(id)
@@ -355,13 +410,13 @@ const editClose = () => {
 const handleEditConfirm = () => {
   proxy.$refs.editFormRef.validate(async (valid) => {
     if (!valid) return proxy.$message.error('请填写合法的信息')
-    const { data } = await proxy.$http.put('users/' + editform.editForm.id, {
-      email: editform.editForm.email,
-      mobile: editform.editForm.mobile
-    })
-    if (data.meta.status !== 200) return proxy.$message.error('修改用户信息失败')
+    // const { data } = await proxy.$http.put('users/' + editform.editForm.id, {
+    //   email: editform.editForm.email,
+    //   mobile: editform.editForm.mobile
+    // })
+    // if (data.meta.status !== 200) return proxy.$message.error('修改用户信息失败')
     editDialogVisible.value = false
-    getUserList()
+    // getUserList()
     proxy.$message.success('修改用户信息成功')
   })
 }
@@ -378,34 +433,62 @@ const deleteUser = async (id) => {
     }
   ).catch(err => err)
   if (res === 'confirm') {
-    const { data } = await proxy.$http.delete('users/' + id)
-    if (data.meta.status !== 200) return proxy.$message.error('删除用户失败')
+    // const { data } = await proxy.$http.delete('users/' + id)
+    // if (data.meta.status !== 200) return proxy.$message.error('删除用户失败')
+    const index = sList.userList.map((item) => item.id).indexOf(id)
+    sList.userList.splice(index, 1)
     proxy.$message.success('删除成功')
-    getUserList()
+    // getUserList()
   }
 }
 // 需要被分配角色的用户信息
 const info = reactive({ userInfo: {} })
 // 获取到的角色列表
-const rolelist = reactive({ roleList: [] })
+// const rolelist = reactive({ roleList: [] })
+// 静态角色列表
+const sRoleList = reactive({
+  rolelist: [
+    {
+      id: 30,
+      roleName: '奥特之父'
+    },
+    {
+      id: 31,
+      roleName: '奥特之母'
+    },
+    {
+      id: 32,
+      roleName: '奥特兄弟'
+    },
+    {
+      id: 33,
+      roleName: '平成三杰'
+    },
+    {
+      id: 34,
+      roleName: '新世代奥特曼'
+    }
+  ]
+})
+// console.log(sRoleList)
 // 已选中的角色id值
 const selectedRoleId = ref('')
 // 分配角色按钮点击
 const setRole = async (userInfo) => {
   info.userInfo = userInfo
   // 获取所有角色列表
-  const { data } = await proxy.$http.get('roles')
-  if (data.meta.status !== 200) return proxy.$message.error('获取角色列表失败')
-  rolelist.roleList = data.data
+  // const { data } = await proxy.$http.get('roles')
+  // if (data.meta.status !== 200) return proxy.$message.error('获取角色列表失败')
+  // rolelist.roleList = data.data
   setRoleDialogVisible.value = true
 }
 // 点击确定按钮，保存分配的角色信息
 const saveRoleInfo = async () => {
   if (!selectedRoleId.value) return proxy.$message.error('请选择需要分配的角色')
-  const { data } = await proxy.$http.put(`users/${info.userInfo.id}/role`, { rid: selectedRoleId.value })
-  if (data.meta.status !== 200) return proxy.$message.error('分配角色失败')
+  // const { data } = await proxy.$http.put(`users/${info.userInfo.id}/role`, { rid: selectedRoleId.value })
+  // if (data.meta.status !== 200) return proxy.$message.error('分配角色失败')
   proxy.$message.success('分配角色成功')
-  getUserList()
+  // getUserList()
   setRoleDialogVisible.value = false
 }
 const handleSetRoleDialogClose = () => {

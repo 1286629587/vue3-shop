@@ -158,7 +158,7 @@ const sData = reactive([
     ]
   }
 ])
-console.log(sData)
+// console.log(sData)
 // 获取菜单数据，保存至menuList
 // const getMemuList = async () => {
 //   const { data } = await proxy.$http.get('menus')
