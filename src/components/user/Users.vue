@@ -220,7 +220,6 @@
 <script setup>
 import { Delete, Edit, Search, Setting } from '@element-plus/icons-vue'
 import { getCurrentInstance, reactive, ref } from 'vue'
-
 const { proxy } = getCurrentInstance()
 
 const { queryInfo, addForm } = reactive({
@@ -381,8 +380,10 @@ const addUser = () => {
     // const { data } = await proxy.$http.post('users', addForm)
     // console.log(data)
     // if (data.meta.status !== 201) return proxy.$message.error('添加用户失败')
-    // console.log(addForm)
-    sList.userList.push(addForm)
+    console.log(addForm)
+    const form = JSON.parse(JSON.stringify(addForm))
+    console.log(form)
+    sList.userList.push(form)
     // console.log(sList.userList)
     proxy.$message.success(`添加用户${addForm.username}成功`)
     dialogVisible.value = false
