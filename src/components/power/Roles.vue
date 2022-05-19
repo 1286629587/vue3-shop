@@ -17,7 +17,7 @@
     </el-row>
     <!-- 角色列表 -->
     <el-table
-      :data="list.roleList"
+      :data="sList"
       :border="true"
       :stripe="true"
     >
@@ -74,8 +74,8 @@
         </template>
       </el-table-column>
       <el-table-column type="index" label="#"></el-table-column>
-      <el-table-column label="角色名称" prop="roleName"></el-table-column>
-      <el-table-column label="角色描述" prop="roleDesc"></el-table-column>
+      <el-table-column label="角色名称" prop=roleName></el-table-column>
+      <el-table-column label="角色描述" prop=roleDesc></el-table-column>
       <el-table-column label="操作" width="300px">
         <template v-slot="scope">
           <el-button
@@ -115,10 +115,10 @@
         :rules="addRolesFormRules"
         label-width="80px"
       >
-        <el-form-item label="角色名称" prop="roleName">
+        <el-form-item label="角色名称" prop=roleName>
           <el-input v-model="addRolesForm.roleName" />
         </el-form-item>
-        <el-form-item label="角色描述" prop="roleDesc">
+        <el-form-item label="角色描述" prop=roleDesc>
           <el-input v-model="addRolesForm.roleDesc" />
         </el-form-item>
       </el-form>
@@ -144,10 +144,10 @@
       :rules="addRolesFormRules"
       label-width="80px"
     >
-      <el-form-item label="角色名称" prop="roleName">
+      <el-form-item label="角色名称" prop=roleName>
         <el-input v-model="editrolesform.editRolesForm.roleName"></el-input>
       </el-form-item>
-      <el-form-item label="角色描述" prop="roleDesc">
+      <el-form-item label="角色描述" prop=roleDesc>
         <el-input v-model="editrolesform.editRolesForm.roleDesc"></el-input>
       </el-form-item>
     </el-form>
@@ -170,7 +170,7 @@
       :data="rightslist.RightsList"
       :props="treeProps"
       show-checkbox
-      node-key="id"
+      node-key=id
       default-expand-all
       :default-checked-keys="defKeys"
       ref="treeRef"
@@ -193,7 +193,554 @@ import { ArrowRightBold } from '@element-plus/icons-vue'
 const { proxy } = getCurrentInstance()
 // 角色列表数据
 const list = reactive({ roleList: [] })
-
+// 静态角色列表数据
+const sList = reactive([
+  {
+    id: 30,
+    roleName: '主管',
+    roleDesc: '技术负责人',
+    children: [
+      {
+        id: 101,
+        authName: '商品管理',
+        path: 'goods',
+        children: [
+          {
+            id: 104,
+            authName: '商品列表',
+            path: 'goods',
+            children: [
+              {
+                id: 105,
+                authName: '添加商品',
+                path: 'goods'
+              },
+              {
+                id: 116,
+                authName: '商品修改',
+                path: 'goods'
+              },
+              {
+                id: 117,
+                authName: '商品删除',
+                path: 'goods'
+              },
+              {
+                id: 150,
+                authName: '更新商品图片',
+                path: 'goods'
+              },
+              {
+                id: 151,
+                authName: '更新商品属性',
+                path: 'goods'
+              },
+              {
+                id: 152,
+                authName: '更新商品状态',
+                path: 'goods'
+              },
+              {
+                id: 153,
+                authName: '获取商品详情',
+                path: 'goods'
+              }
+            ]
+          },
+          {
+            id: 115,
+            authName: '分类参数',
+            path: 'params',
+            children: [
+              {
+                id: 142,
+                authName: '获取参数列表',
+                path: 'categories'
+              },
+              {
+                id: 143,
+                authName: '创建商品参数',
+                path: 'categories'
+              },
+              {
+                id: 144,
+                authName: '删除商品参数',
+                path: 'categories'
+              }
+            ]
+          },
+          {
+            id: 121,
+            authName: '商品分类',
+            path: 'categories',
+            children: [
+              {
+                id: 122,
+                authName: '添加分类',
+                path: 'categories'
+              },
+              {
+                id: 123,
+                authName: '删除分类',
+                path: 'categories'
+              },
+              {
+                id: 149,
+                authName: '获取分类详情',
+                path: 'categories'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 102,
+        authName: '订单管理',
+        path: 'orders',
+        children: [
+          {
+            id: 107,
+            authName: '订单列表',
+            path: 'orders',
+            children: [
+              {
+                id: 109,
+                authName: '添加订单',
+                path: 'orders'
+              },
+              {
+                id: 154,
+                authName: '订单更新',
+                path: 'orders'
+              },
+              {
+                id: 155,
+                authName: '获取订单详情',
+                path: 'orders'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 103,
+        authName: '权限管理',
+        path: 'rights',
+        children: [
+          {
+            id: 111,
+            authName: '角色列表',
+            path: 'roles',
+            children: [
+              {
+                id: 129,
+                authName: '添加角色',
+                path: 'roles'
+              },
+              {
+                id: 130,
+                authName: '删除角色',
+                path: 'roles'
+              },
+              {
+                id: 134,
+                authName: '角色授权',
+                path: 'roles'
+              },
+              {
+                id: 135,
+                authName: '取消角色授权',
+                path: 'roles'
+              },
+              {
+                id: 140,
+                authName: '更新角色信息',
+                path: 'roles'
+              }
+            ]
+          },
+          {
+            id: 112,
+            authName: '权限列表',
+            path: 'rights',
+            children: [
+              {
+                id: 147,
+                authName: '查看权限',
+                path: 'rights'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 125,
+        authName: '用户管理',
+        path: 'users',
+        children: [
+          {
+            id: 110,
+            authName: '用户列表',
+            path: 'users',
+            children: [
+              {
+                id: 131,
+                authName: '添加用户',
+                path: 'users'
+              },
+              {
+                id: 132,
+                authName: '删除用户',
+                path: 'users'
+              },
+              {
+                id: 133,
+                authName: '更新用户',
+                path: 'users'
+              },
+              {
+                id: 136,
+                authName: '获取用户详情',
+                path: 'users'
+              },
+              {
+                id: 137,
+                authName: '分配用户角色',
+                path: 'users'
+              },
+              {
+                id: 159,
+                authName: '设置管理状态',
+                path: 'users'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 145,
+        authName: '数据统计',
+        path: 'reports',
+        children: [
+          {
+            id: 146,
+            authName: '数据报表',
+            path: 'reports',
+            children: [
+              {
+                id: 148,
+                authName: '查看数据',
+                path: 'reports'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 31,
+    roleName: '测试角色',
+    roleDesc: '测试角色描述',
+    children: []
+  },
+  {
+    id: 34,
+    roleName: '测试角色2',
+    roleDesc: '测试描述12',
+    children: []
+  },
+  {
+    id: 39,
+    roleName: '大发送到',
+    roleDesc: '阿斯蒂芬',
+    children: [
+      {
+        id: 101,
+        authName: '商品管理',
+        path: 'goods',
+        children: []
+      }
+    ]
+  },
+  {
+    id: 40,
+    roleName: 'test',
+    roleDesc: 'test',
+    children: [
+      {
+        id: 102,
+        authName: '订单管理',
+        path: 'orders',
+        children: []
+      }
+    ]
+  },
+  {
+    id: 42,
+    roleName: '泰罗',
+    roleDesc: '谢谢你泰罗',
+    children: [
+      {
+        id: 101,
+        authName: '商品管理',
+        path: 'goods',
+        children: [
+          {
+            id: 104,
+            authName: '商品列表',
+            path: 'goods',
+            children: [
+              {
+                id: 105,
+                authName: '添加商品',
+                path: 'goods'
+              },
+              {
+                id: 116,
+                authName: '商品修改',
+                path: 'goods'
+              },
+              {
+                id: 117,
+                authName: '商品删除',
+                path: 'goods'
+              },
+              {
+                id: 150,
+                authName: '更新商品图片',
+                path: 'goods'
+              },
+              {
+                id: 151,
+                authName: '更新商品属性',
+                path: 'goods'
+              },
+              {
+                id: 152,
+                authName: '更新商品状态',
+                path: 'goods'
+              },
+              {
+                id: 153,
+                authName: '获取商品详情',
+                path: 'goods'
+              }
+            ]
+          },
+          {
+            id: 115,
+            authName: '分类参数',
+            path: 'params',
+            children: [
+              {
+                id: 142,
+                authName: '获取参数列表',
+                path: 'categories'
+              },
+              {
+                id: 143,
+                authName: '创建商品参数',
+                path: 'categories'
+              },
+              {
+                id: 144,
+                authName: '删除商品参数',
+                path: 'categories'
+              }
+            ]
+          },
+          {
+            id: 121,
+            authName: '商品分类',
+            path: 'categories',
+            children: [
+              {
+                id: 122,
+                authName: '添加分类',
+                path: 'categories'
+              },
+              {
+                id: 123,
+                authName: '删除分类',
+                path: 'categories'
+              },
+              {
+                id: 149,
+                authName: '获取分类详情',
+                path: 'categories'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 102,
+        authName: '订单管理',
+        path: 'orders',
+        children: [
+          {
+            id: 107,
+            authName: '订单列表',
+            path: 'orders',
+            children: [
+              {
+                id: 109,
+                authName: '添加订单',
+                path: 'orders'
+              },
+              {
+                id: 154,
+                authName: '订单更新',
+                path: 'orders'
+              },
+              {
+                id: 155,
+                authName: '获取订单详情',
+                path: 'orders'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 103,
+        authName: '权限管理',
+        path: 'rights',
+        children: [
+          {
+            id: 111,
+            authName: '角色列表',
+            path: 'roles',
+            children: [
+              {
+                id: 129,
+                authName: '添加角色',
+                path: 'roles'
+              },
+              {
+                id: 130,
+                authName: '删除角色',
+                path: 'roles'
+              },
+              {
+                id: 134,
+                authName: '角色授权',
+                path: 'roles'
+              },
+              {
+                id: 135,
+                authName: '取消角色授权',
+                path: 'roles'
+              },
+              {
+                id: 138,
+                authName: '获取角色列表',
+                path: 'roles'
+              },
+              {
+                id: 139,
+                authName: '获取角色详情',
+                path: 'roles'
+              },
+              {
+                id: 140,
+                authName: '更新角色信息',
+                path: 'roles'
+              },
+              {
+                id: 141,
+                authName: '更新角色权限',
+                path: 'roles'
+              }
+            ]
+          },
+          {
+            id: 112,
+            authName: '权限列表',
+            path: 'rights',
+            children: [
+              {
+                id: 147,
+                authName: '查看权限',
+                path: 'rights'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 125,
+        authName: '用户管理',
+        path: 'users',
+        children: [
+          {
+            id: 110,
+            authName: '用户列表',
+            path: 'users',
+            children: [
+              {
+                id: 131,
+                authName: '添加用户',
+                path: 'users'
+              },
+              {
+                id: 132,
+                authName: '删除用户',
+                path: 'users'
+              },
+              {
+                id: 133,
+                authName: '更新用户',
+                path: 'users'
+              },
+              {
+                id: 136,
+                authName: '获取用户详情',
+                path: 'users'
+              },
+              {
+                id: 137,
+                authName: '分配用户角色',
+                path: 'users'
+              },
+              {
+                id: 159,
+                authName: '设置管理状态',
+                path: 'users'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 145,
+        authName: '数据统计',
+        path: 'reports',
+        children: [
+          {
+            id: 146,
+            authName: '数据报表',
+            path: 'reports',
+            children: [
+              {
+                id: 148,
+                authName: '查看数据',
+                path: 'reports'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 43,
+    roleName: '迪迦',
+    roleDesc: '要相信光',
+    children: []
+  }
+])
 // 添加角色对象
 const { addRolesForm } = reactive({
   addRolesForm: {
@@ -209,7 +756,7 @@ const getRoleList = async () => {
   const { data } = await proxy.$http.get('roles')
   if (data.meta.status !== 200) proxy.$message.error('获取角色列表失败')
   list.roleList = data.data
-  // console.log(list.roleList)
+  console.log(list.roleList)
 }
 getRoleList()
 
