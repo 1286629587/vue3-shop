@@ -22,8 +22,13 @@
       </el-col>
     </el-row>
     <!-- 表格 -->
-    <el-table
+    <!-- <el-table
       :data="list.orderList"
+      :border="true"
+      :stripe="true"
+    > -->
+    <el-table
+      :data="sList"
       :border="true"
       :stripe="true"
     >
@@ -131,6 +136,89 @@ const list = reactive({
   cityData,
   progressInfo: []
 })
+// 静态订单列表数据
+const sList = reactive([
+  {
+    order_id: 68,
+    user_id: 1,
+    order_number: 'itcast-g7kmck725jaujgdts',
+    order_price: 40,
+    order_pay: '0',
+    is_send: '否',
+    trade_no: '',
+    order_fapiao_title: '个人',
+    order_fapiao_company: '',
+    order_fapiao_content: '',
+    consignee_addr: '',
+    pay_status: '0',
+    create_time: 1512535620,
+    update_time: 1512535620
+  },
+  {
+    order_id: 67,
+    user_id: 1,
+    order_number: 'itcast-g7kmck71vjaujfgoi',
+    order_price: 20,
+    order_pay: '0',
+    is_send: '否',
+    trade_no: '',
+    order_fapiao_title: '个人',
+    order_fapiao_company: '',
+    order_fapiao_content: '',
+    consignee_addr: '',
+    pay_status: '0',
+    create_time: 1512533560,
+    update_time: 1512533560
+  },
+  {
+    order_id: 66,
+    user_id: 1,
+    order_number: 'itcast-g7kmck71jjaujer6a',
+    order_price: 20,
+    order_pay: '0',
+    is_send: '否',
+    trade_no: '',
+    order_fapiao_title: '个人',
+    order_fapiao_company: '',
+    order_fapiao_content: '',
+    consignee_addr: '',
+    pay_status: '0',
+    create_time: 1512533527,
+    update_time: 1512533527
+  },
+  {
+    order_id: 65,
+    user_id: 1,
+    order_number: 'itcast-g7kmck6rwjauin92y',
+    order_price: 20,
+    order_pay: '0',
+    is_send: '否',
+    trade_no: '',
+    order_fapiao_title: '个人',
+    order_fapiao_company: '',
+    order_fapiao_content: '',
+    consignee_addr: '',
+    pay_status: '0',
+    create_time: 1512532244,
+    update_time: 1512532244
+  },
+  {
+    order_id: 64,
+    user_id: 1,
+    order_number: 'itcast-g7kmck6rmjauimx8v',
+    order_price: 20,
+    order_pay: '0',
+    is_send: '否',
+    trade_no: '',
+    order_fapiao_title: '个人',
+    order_fapiao_company: '',
+    order_fapiao_content: '',
+    consignee_addr: '',
+    pay_status: '0',
+    create_time: 1512532229,
+    update_time: 1512532229
+  }
+])
 const showEditDialogVisible = ref(false)
 const showLoactionDialogVisible = ref(false)
 const addressFormRules = {
@@ -148,9 +236,9 @@ const getOrderList = async () => {
   const { data } = await proxy.$http.get('orders', { params: list.queryInfo })
   if (data.meta.status !== 200) return proxy.$message.error('获取订单数据列表失败')
   proxy.$message.success('获取订单数据列表成功')
-  // console.log(data)
   list.total = data.data.total
   list.orderList = data.data.goods
+  console.log(list.orderList)
 }
 getOrderList()
 // size点击事件
