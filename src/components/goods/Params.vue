@@ -16,9 +16,16 @@
     <el-row class="margin-top">
       <el-col>
         <span>选择商品分类：</span>
-        <el-cascader
+        <!-- <el-cascader
           v-model="list.SelectedKeys"
           :options="list.CateList"
+          :props="Props"
+          @change="handleChange"
+          clearable
+        /> -->
+        <el-cascader
+          v-model="list.SelectedKeys"
+          :options="slist.CateList"
           :props="Props"
           @change="handleChange"
           clearable
@@ -35,7 +42,7 @@
         >添加参数</el-button>
         <!-- 动态参数表格 -->
         <el-table
-          :data="list.manyTableData"
+          :data="slist.manyTableData"
           :border="true"
           stripe
         >
@@ -62,8 +69,8 @@
               <el-button v-else size="small" @click="showInput(scope.row)">+ New Tag</el-button>
             </template>
           </el-table-column>
-          <el-table-column label="#" type="index" prop=""></el-table-column>
-          <el-table-column label="参数名称" prop="attr_name"></el-table-column>
+          <el-table-column label="#" type="index" prop=''></el-table-column>
+          <el-table-column label="参数名称" prop=attr_name></el-table-column>
           <el-table-column label="操作">
             <template v-slot="scope">
               <el-button
@@ -90,7 +97,7 @@
         >添加属性</el-button>
         <!-- 静态属性表格 -->
         <el-table
-          :data="list.onlyTableData"
+          :data="slist.onlyTableData"
           :border="true"
           stripe
         >
@@ -121,8 +128,8 @@
               >+ New Tag</el-button>
             </template>
           </el-table-column>
-          <el-table-column label="#" type="index" prop=""></el-table-column>
-          <el-table-column label="属性名称" prop="attr_name"></el-table-column>
+          <el-table-column label="#" type="index" prop=''></el-table-column>
+          <el-table-column label="属性名称" prop=attr_name></el-table-column>
           <el-table-column label="操作">
             <template v-slot="scope">
               <el-button
@@ -156,7 +163,7 @@
       ref="addFormRef"
       label-width="100px"
     >
-      <el-form-item :label="titleText" prop="attr_name">
+      <el-form-item :label="titleText" prop=attr_name>
         <el-input v-model="list.addForm.attr_name"></el-input>
       </el-form-item>
     </el-form>
@@ -178,7 +185,7 @@
       label-width="100px"
       :model="list.editForm"
     >
-      <el-form-item :label="titleText" prop="attr_name">
+      <el-form-item :label="titleText" prop=attr_name>
         <el-input v-model="list.editForm.attr_name"></el-input>
       </el-form-item>
     </el-form>
@@ -209,6 +216,287 @@ const list = reactive({
   },
   // 编辑参数的表单数据对象
   editForm: {}
+})
+// 静态数据
+const slist = reactive({
+  // 静态商品分类数组
+  CateList: [
+    {
+      cat_id: 1,
+      cat_name: '大家电',
+      cat_pid: 0,
+      cat_level: 0,
+      cat_deleted: false,
+      children: [
+        {
+          cat_id: 3,
+          cat_name: '电视',
+          cat_pid: 1,
+          cat_level: 1,
+          cat_deleted: false,
+          children: [
+            {
+              cat_id: 6,
+              cat_name: '曲面电视',
+              cat_pid: 3,
+              cat_level: 2,
+              cat_deleted: false
+            },
+            {
+              cat_id: 7,
+              cat_name: '海信',
+              cat_pid: 3,
+              cat_level: 2,
+              cat_deleted: false
+            },
+            {
+              cat_id: 8,
+              cat_name: '夏普',
+              cat_pid: 3,
+              cat_level: 2,
+              cat_deleted: false
+            }
+          ]
+        },
+        {
+          cat_id: 4,
+          cat_name: '空调',
+          cat_pid: 1,
+          cat_level: 1,
+          cat_deleted: false,
+          children: [
+            {
+              cat_id: 23,
+              cat_name: '变频空调',
+              cat_pid: 4,
+              cat_level: 2,
+              cat_deleted: false
+            },
+            {
+              cat_id: 24,
+              cat_name: '立柜空调',
+              cat_pid: 4,
+              cat_level: 2,
+              cat_deleted: false
+            },
+            {
+              cat_id: 25,
+              cat_name: '挂壁空调',
+              cat_pid: 4,
+              cat_level: 2,
+              cat_deleted: false
+            }
+          ]
+        },
+        {
+          cat_id: 26,
+          cat_name: '洗衣机',
+          cat_pid: 1,
+          cat_level: 1,
+          cat_deleted: false,
+          children: [
+            {
+              cat_id: 42,
+              cat_name: '洗衣机',
+              cat_pid: 26,
+              cat_level: 2,
+              cat_deleted: false
+            },
+            {
+              cat_id: 43,
+              cat_name: '滚筒洗衣机',
+              cat_pid: 26,
+              cat_level: 2,
+              cat_deleted: false
+            },
+            {
+              cat_id: 44,
+              cat_name: '波轮洗衣机',
+              cat_pid: 26,
+              cat_level: 2,
+              cat_deleted: false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      cat_id: 52,
+      cat_name: '热门推荐',
+      cat_pid: 0,
+      cat_level: 0,
+      cat_deleted: false,
+      children: [
+        {
+          cat_id: 64,
+          cat_name: '圣诞狂欢',
+          cat_pid: 52,
+          cat_level: 1,
+          cat_deleted: false,
+          children: [
+            {
+              cat_id: 73,
+              cat_name: '护肤套装',
+              cat_pid: 64,
+              cat_level: 2,
+              cat_deleted: false
+            },
+            {
+              cat_id: 74,
+              cat_name: '面膜',
+              cat_pid: 64,
+              cat_level: 2,
+              cat_deleted: false
+            },
+            {
+              cat_id: 76,
+              cat_name: '巧克力',
+              cat_pid: 64,
+              cat_level: 2,
+              cat_deleted: false
+            }
+          ]
+        },
+        {
+          cat_id: 1008,
+          cat_name: '冲锋衣',
+          cat_pid: 52,
+          cat_level: 2,
+          cat_deleted: false
+        }
+      ]
+    },
+    {
+      cat_id: 70,
+      cat_name: '全球购',
+      cat_pid: 0,
+      cat_level: 0,
+      cat_deleted: false,
+      children: [
+        {
+          cat_id: 75,
+          cat_name: '国际名牌',
+          cat_pid: 70,
+          cat_level: 1,
+          cat_deleted: false,
+          children: [
+            {
+              cat_id: 92,
+              cat_name: 'swisse',
+              cat_pid: 75,
+              cat_level: 2,
+              cat_deleted: false
+            },
+            {
+              cat_id: 94,
+              cat_name: '巴黎水',
+              cat_pid: 75,
+              cat_level: 2,
+              cat_deleted: false
+            },
+            {
+              cat_id: 95,
+              cat_name: '爱他美',
+              cat_pid: 75,
+              cat_level: 2,
+              cat_deleted: false
+            }
+          ]
+        },
+        {
+          cat_id: 93,
+          cat_name: '母婴儿童',
+          cat_pid: 70,
+          cat_level: 1,
+          cat_deleted: false,
+          children: [
+            {
+              cat_id: 102,
+              cat_name: '纸尿裤',
+              cat_pid: 93,
+              cat_level: 2,
+              cat_deleted: false
+            },
+            {
+              cat_id: 103,
+              cat_name: '营养辅食',
+              cat_pid: 93,
+              cat_level: 2,
+              cat_deleted: false
+            },
+            {
+              cat_id: 104,
+              cat_name: '婴儿用品',
+              cat_pid: 93,
+              cat_level: 2,
+              cat_deleted: false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  // 动态参数
+  manyTableData: [
+    {
+      attr_id: 3809,
+      attr_name: '尺寸',
+      cat_id: 6,
+      attr_sel: 'many',
+      attr_write: 'list',
+      attr_vals: [
+        '64',
+        '24'
+      ],
+      delete_time: null,
+      inputVisible: false,
+      inputValue: ''
+    },
+    {
+      attr_id: 3810,
+      attr_name: '分辨率',
+      cat_id: 6,
+      attr_sel: 'many',
+      attr_write: 'list',
+      attr_vals: [
+        '2k',
+        '4k'
+      ],
+      delete_time: null,
+      inputVisible: false,
+      inputValue: ''
+    }
+  ],
+  // 静态属性
+  onlyTableData: [
+    {
+      attr_id: 3068,
+      attr_name: '主体-商品名称',
+      cat_id: 6,
+      attr_sel: 'only',
+      attr_write: 'manual',
+      attr_vals: [
+        'TCL电视',
+        '55A950C'
+      ],
+      delete_time: null,
+      inputVisible: false,
+      inputValue: ''
+    },
+    {
+      attr_id: 3069,
+      attr_name: '显示-曲面',
+      cat_id: 6,
+      attr_sel: 'only',
+      attr_write: 'manual',
+      attr_vals: [
+        '是'
+      ],
+      delete_time: null,
+      inputVisible: false,
+      inputValue: ''
+    }
+  ]
 })
 // 默认选中的标签页
 const activeName = ref('many')
@@ -285,8 +573,12 @@ const getParamsData = async () => {
   // 判断数据类型
   if (activeName.value === 'many') {
     list.manyTableData = data.data
+    console.log('动态参数')
+    console.log(list.manyTableData)
   } else {
     list.onlyTableData = data.data
+    console.log('静态属性')
+    console.log(list.onlyTableData)
   }
 }
 // 监听级联选择器商品分类改变事件
@@ -424,5 +716,4 @@ const handleInputConfirm = async (item) => {
     width: 100px;
   }
 }
-
 </style>
